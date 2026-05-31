@@ -1,0 +1,29 @@
+# LEAN CLI
+backtests/
+storage/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# MkDocs hosted-site build
+site/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
