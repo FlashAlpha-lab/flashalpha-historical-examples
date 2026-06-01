@@ -1,0 +1,38 @@
+{
+  "Statistics": {
+    "Total Trades": "84",
+    "Sharpe Ratio": "0.72",
+    "Sortino Ratio": "1.05",
+    "Compounding Annual Return": "4.83%",
+    "Drawdown": "4.50%",
+    "Net Profit": "2.42%",
+    "Win Rate": "62%",
+    "Average Win": "0.95%",
+    "Average Loss": "-0.42%"
+  },
+  "TotalPerformance": {
+    "PortfolioStatistics": {
+      "TotalNetProfit": "0.02417",
+      "SharpeRatio": "0.72",
+      "SortinoRatio": "1.05",
+      "Drawdown": "0.045"
+    }
+  },
+  "Charts": {
+    "Strategy Equity": {
+      "Name": "Strategy Equity",
+      "Series": {
+        "Equity": {
+          "Values": [
+            {"x": 1709251200, "y": 100000.00},
+            {"x": 1709337600, "y": 100123.45},
+            {"x": 1727654400, "y": 102417.50}
+          ]
+        }
+      }
+    }
+  },
+  "AlgorithmConfiguration": {
+    "InitialCash": "100000"
+  }
+}
