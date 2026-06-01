@@ -1,0 +1,28 @@
+title: IV-rank entry filter
+slug: iv-rank-entry-filter
+theme: vrp-volatility
+difficulty: intermediate
+status: draft
+summary: _(One-sentence summary of IV-rank entry filter.)_
+bridge_bars:
+- FlashAlphaGexBar
+data_endpoints:
+- exposure/gex
+tickers:
+- SPY
+backtest_window:
+  start: '2024-03-01'
+  end: '2024-09-30'
+expected_runtime:
+  python: 5m
+  csharp: 2m
+golden:
+  python: {}
+  csharp: {}
+keywords:
+- iv-rank entry filter
+- QuantConnect
+- LEAN
+last_updated: '2026-06-01'
+related: []
+references: []

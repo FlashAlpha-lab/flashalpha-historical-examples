@@ -1,0 +1,28 @@
+title: Calendar carry on positive-gamma days
+slug: calendar-carry-positive-gamma
+theme: cross-signal
+difficulty: intermediate
+status: draft
+summary: _(One-sentence summary of Calendar carry on positive-gamma days.)_
+bridge_bars:
+- FlashAlphaGexBar
+data_endpoints:
+- exposure/gex
+tickers:
+- SPY
+backtest_window:
+  start: '2024-03-01'
+  end: '2024-09-30'
+expected_runtime:
+  python: 5m
+  csharp: 2m
+golden:
+  python: {}
+  csharp: {}
+keywords:
+- calendar carry on positive-gamma days
+- QuantConnect
+- LEAN
+last_updated: '2026-06-01'
+related: []
+references: []

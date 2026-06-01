@@ -1,0 +1,28 @@
+title: Vanna-shock reversal
+slug: vanna-shock-reversal
+theme: vanna-charm-vex
+difficulty: intermediate
+status: draft
+summary: _(One-sentence summary of Vanna-shock reversal.)_
+bridge_bars:
+- FlashAlphaGexBar
+data_endpoints:
+- exposure/gex
+tickers:
+- SPY
+backtest_window:
+  start: '2024-03-01'
+  end: '2024-09-30'
+expected_runtime:
+  python: 5m
+  csharp: 2m
+golden:
+  python: {}
+  csharp: {}
+keywords:
+- vanna-shock reversal
+- QuantConnect
+- LEAN
+last_updated: '2026-06-01'
+related: []
+references: []
