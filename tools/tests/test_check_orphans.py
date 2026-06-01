@@ -30,6 +30,12 @@ def essay_dir(tmp_path: Path) -> Path:
     (d / "csharp" / "golden.json").write_text("{}\n")
     (d / "csharp" / "Sample.csproj").write_text("<Project/>\n")
     (d / "references.md").write_text("- Sample reference\n")
+    # validation/ subdir (added in V4)
+    (d / "validation").mkdir()
+    (d / "validation" / "main.py").write_text("# stub\n")
+    (d / "validation" / "config.json").write_text("{}\n")
+    (d / "validation" / "lean.json").write_text("{}\n")
+    (d / "validation" / "smoke-golden.json").write_text("{}\n")
     return d
 
 

@@ -24,8 +24,12 @@ REQUIRED_FILES = [
     "csharp/config.json",
     "csharp/Main.cs",
     "csharp/golden.json",
+    "validation/lean.json",
+    "validation/config.json",
+    "validation/main.py",
+    "validation/smoke-golden.json",
 ]
-REQUIRED_DIRS = ["python", "csharp", "results"]
+REQUIRED_DIRS = ["python", "csharp", "results", "validation"]
 
 
 def check_essay_shape(essay_dir: Path) -> None:
