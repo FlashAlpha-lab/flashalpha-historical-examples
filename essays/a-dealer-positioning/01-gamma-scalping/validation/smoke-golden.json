@@ -1,1 +1,17 @@
-{}
+{
+  "tier": "smoke",
+  "final_equity": 100000.0,
+  "initial_equity": 100000.0,
+  "total_trades": 0,
+  "sharpe": 0.0,
+  "max_drawdown": 0.0,
+  "_smoke_status": "FAILED_PLAUSIBILITY",
+  "_smoke_reason": "0 trades — bridge custom-data subscription did not deliver daily bars to OnData. LEAN backtest completed cleanly otherwise (run id 1423146059, dir smoke-01-gamma-scalping/backtests/2026-06-01_22-44-05).",
+  "_smoke_diagnosis": "Possible causes: (1) LEAN Docker container lacks flashalpha-quantconnect — runtime install of validation/requirements.txt may not be wired; (2) bridge's add_flashalpha_gex subscribes but FlashAlphaSource.For never fires; (3) LEAN's custom-data downloader can't reach historical.flashalpha.com from inside Docker; (4) bar's GetSource/Reader contract mismatch with LEAN 1.0.225 expectations.",
+  "_diagnostic_next_steps": [
+    "Run lean backtest with --verbose to see Python import + subscription resolution",
+    "Inspect Docker container: does pip list inside the container show flashalpha-quantconnect?",
+    "Check FlashAlphaSource log emission — does it print/log on first GetSource call?",
+    "Try the simpler bridge smoke test pattern from the bridge's own smoke (e:/tmp/flashalpha-qc-smoke/) which uses FlashAlphaSource.For directly without LEAN's Algorithm wrapper"
+  ]
+}

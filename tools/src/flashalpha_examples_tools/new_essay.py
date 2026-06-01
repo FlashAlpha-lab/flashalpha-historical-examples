@@ -177,7 +177,7 @@ class Algorithm(QCAlgorithm):
         encoding="utf-8",
     )
     (essay_dir / "validation" / "requirements.txt").write_text(
-        "flashalpha-quantconnect==0.1.1\n", encoding="utf-8",
+        "flashalpha-quantconnect==0.1.2\n", encoding="utf-8",
     )
     # smoke-golden.json starts empty; populated by `fa-smoke`
     (essay_dir / "validation" / "smoke-golden.json").write_text("{}\n", encoding="utf-8")
@@ -234,7 +234,7 @@ class Algorithm(QCAlgorithm):
         encoding="utf-8",
     )
     (essay_dir / "python" / "requirements.txt").write_text(
-        "flashalpha-quantconnect==0.1.1\n", encoding="utf-8",
+        "flashalpha-quantconnect==0.1.2\n", encoding="utf-8",
     )
     (essay_dir / "python" / "golden.json").write_text("{}\n", encoding="utf-8")
 
@@ -289,7 +289,7 @@ public class Algorithm : QCAlgorithm
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="QuantConnect.Lean" Version="2.5.17414" />
-    <PackageReference Include="FlashAlpha.QuantConnect" Version="0.1.1" />
+    <PackageReference Include="FlashAlpha.QuantConnect" Version="0.1.2" />
   </ItemGroup>
 </Project>
 ''',

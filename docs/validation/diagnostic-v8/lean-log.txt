@@ -1,0 +1,136 @@
+2026-06-01T19:44:11.4735708Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: DESKTOP-L7BK2O6
+2026-06-01T19:44:11.4812353Z TRACE:: Engine.Main(): Started 7:44 PM
+2026-06-01T19:44:11.5082155Z TRACE:: JobQueue.NextJob(): Selected /LeanCLI/main.py
+2026-06-01T19:44:11.5642548Z TRACE:: AlgorithmManager.CreateTokenBucket(): Initializing LeakyBucket: Capacity: 120 RefillAmount: 18 TimeInterval: 1440
+2026-06-01T19:44:11.5709502Z TRACE:: Engine.Run(): Resource limits '0' CPUs. 2147483647 MB RAM.
+2026-06-01T19:44:11.5717599Z TRACE:: TextSubscriptionDataSourceReader.SetCacheSize(): Setting cache size to 71582788 items
+2026-06-01T19:44:12.2509145Z TRACE:: PythonInitializer.Initialize(): start...
+2026-06-01T19:44:12.4440398Z TRACE:: PythonInitializer.Initialize(): ended
+2026-06-01T19:44:12.4456726Z TRACE:: AlgorithmPythonWrapper(): Python version 3.11.14 (main, Oct 21 2025, 18:40:40) [GCC 11.2.0]: Importing python module main
+2026-06-01T19:44:12.5945841Z TRACE:: AlgorithmPythonWrapper(): main successfully imported.
+2026-06-01T19:44:12.5962695Z TRACE:: AlgorithmPythonWrapper(): Creating IAlgorithm instance.
+2026-06-01T19:44:13.1055872Z TRACE:: LocalObjectStore.Initialize(): Storage Root: /Storage. StorageFileCount 9999999. StorageLimit 10240MB. StoragePermissions Read=True Write=True Delete=True
+2026-06-01T19:44:13.1149012Z TRACE:: HistoryProviderManager.Initialize(): history providers [SubscriptionDataReaderHistoryProvider]
+2026-06-01T19:44:13.1178355Z TRACE:: BaseSetupHandler.Setup(LocalPlatform): UID: 100452, PID: -943244326, Version: 2.5.0.0, Source: WebIDE
+2026-06-01T19:44:13.2523325Z TRACE:: WeightedWorkScheduler(): will use 32 workers and MaxWorkWeight is 400
+2026-06-01T19:44:13.2680526Z TRACE:: BaseSetupHandler.SetupCurrencyConversions():
+Account Type: Margin
+
+Symbol      Quantity    Conversion = Value in USD
+USD: $      100000.00 @       1.00 = $100000
+-------------------------------------------------
+CashBook Total Value:                $100000
+
+2026-06-01T19:44:13.2699895Z TRACE:: Total margin information: TotalMarginUsed: 0.00, MarginRemaining: 100000.00
+2026-06-01T19:44:13.2705459Z TRACE:: SetUp Backtesting: User: 100452 ProjectId: -943244326 AlgoId: 1423146059
+2026-06-01T19:44:13.2721260Z TRACE:: Dates: Start: 06/03/2024 End: 07/05/2024 Cash: ¤100,000.00 MaximumRuntime: 100.00:00:00 MaxOrders: 2147483647
+2026-06-01T19:44:13.2754011Z TRACE:: BacktestingResultHandler(): Sample Period Set: 11.88
+2026-06-01T19:44:13.2759947Z TRACE:: JOB HANDLERS:
+         DataFeed:             QuantConnect.Lean.Engine.DataFeeds.FileSystemDataFeed
+         Setup:                QuantConnect.Lean.Engine.Setup.BacktestingSetupHandler
+         RealTime:             QuantConnect.Lean.Engine.RealTime.BacktestingRealTimeHandler
+         Results:              QuantConnect.Lean.Engine.Results.BacktestingResultHandler
+         Transactions:         QuantConnect.Lean.Engine.TransactionHandlers.BacktestingTransactionHandler
+         Object Store:         QuantConnect.Lean.Engine.Storage.LocalObjectStore
+         History Provider:     QuantConnect.Lean.Engine.HistoricalData.HistoryProviderManager
+         Brokerage:            QuantConnect.Brokerages.Backtesting.BacktestingBrokerage
+         Data Provider:        QuantConnect.Lean.Engine.DataFeeds.DefaultDataProvider
+
+2026-06-01T19:44:13.2864429Z TRACE:: Event Name "Daily Sampling", scheduled to run.
+2026-06-01T19:44:13.2880886Z TRACE:: AlgorithmManager.Run(): Begin DataStream - Start: 6/3/2024 12:00:00 AM Stop: 7/5/2024 11:59:59 PM Time: 6/3/2024 12:00:00 AM Warmup: False
+2026-06-01T19:44:13.3216054Z TRACE:: Debug: Launching analysis for 1423146059 with LEAN Engine v2.5.0.0
+2026-06-01T19:44:13.3364092Z ERROR:: <>c__DisplayClass1_0.<CreateAndScheduleWorker>b__0(): Subscription worker task exception SPY,#0,SPY,Daily,GexBar,Trade,Adjusted,OpenInterest. Python.Runtime.PythonException: cannot import name 'SubscriptionDataSource' from 'QuantConnect' (unknown location)
+  File "/root/.local/lib/python3.11/site-packages/flashalpha_quantconnect/data/source.py", line 53, in source_for
+    from QuantConnect import SubscriptionDataSource
+  File "/root/.local/lib/python3.11/site-packages/flashalpha_quantconnect/data/exposure.py", line 59, in GetSource
+    return source_for("exposure/gex", config.Symbol, date)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   at Python.Runtime.PythonException.ThrowLastAsClrException()
+   at Python.Runtime.PyObject.Invoke(PyTuple args, PyDict kw)
+   at Python.Runtime.PyObject.TryInvoke(InvokeBinder binder, Object[] args, Object& result)
+   at CallSite.Target(Closure, CallSite, Object, SubscriptionDataConfig, DateTime, Boolean)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute4[T0,T1,T2,T3,TRet](CallSite site, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+   at QuantConnect.Python.PythonData.GetSource(SubscriptionDataConfig config, DateTime date, Boolean isLiveMode) in Common/Python/PythonData.cs:line 103
+   at QuantConnect.Lean.Engine.DataFeeds.SubscriptionDataReader.UpdateDataEnumerator(Boolean endOfEnumerator) in Engine/DataFeeds/SubscriptionDataReader.cs:line 458
+   at QuantConnect.Lean.Engine.DataFeeds.SubscriptionDataReader.Initialize() in Engine/DataFeeds/SubscriptionDataReader.cs:line 264
+   at QuantConnect.Lean.Engine.DataFeeds.SubscriptionDataReader.MoveNext() in Engine/DataFeeds/SubscriptionDataReader.cs:line 282
+   at QuantConnect.Lean.Engine.DataFeeds.Enumerators.SynchronizingEnumerator`1.GetBruteForceMethod(IEnumerator`1[] enumerators)+MoveNext() in Engine/DataFeeds/Enumerators/SynchronizingEnumerator.cs:line 143
+   at QuantConnect.Lean.Engine.DataFeeds.Enumerators.SynchronizingEnumerator`1.MoveNext() in Engine/DataFeeds/Enumerators/SynchronizingEnumerator.cs:line 91
+   at QuantConnect.Lean.Engine.DataFeeds.Enumerators.SubscriptionFilterEnumerator.MoveNext() in Engine/DataFeeds/Enumerators/SubscriptionFilterEnumerator.cs:line 123
+   at QuantConnect.Lean.Engine.DataFeeds.SubscriptionUtils.<>c__DisplayClass1_0.<CreateAndScheduleWorker>b__0(Int32 workBatchSize) in Engine/DataFeeds/SubscriptionUtils.cs:line 96
+2026-06-01T19:44:13.3941965Z TRACE:: UniverseSelection.AddPendingInternalDataFeeds(): Adding internal benchmark data feed SPY,#0,SPY,Hour,TradeBar,Trade,Adjusted,OpenInterest,Internal
+2026-06-01T19:44:13.6106984Z TRACE:: Synchronizer.GetEnumerator(): Exited thread.
+2026-06-01T19:44:13.6116780Z TRACE:: AlgorithmManager.Run(): Firing On End Of Algorithm...
+2026-06-01T19:44:13.6133545Z TRACE:: Engine.Run(): Exiting Algorithm Manager
+2026-06-01T19:44:13.6167463Z TRACE:: StopSafely(): Waiting for 'Isolator Thread' thread to stop...
+2026-06-01T19:44:13.6171417Z TRACE:: FileSystemDataFeed.Exit(): Start. Setting cancellation token...
+2026-06-01T19:44:13.6198411Z TRACE:: FileSystemDataFeed.Exit(): Exit Finished.
+2026-06-01T19:44:13.6202484Z TRACE:: BacktestingResultHandler.Exit(): starting...
+2026-06-01T19:44:13.6206154Z TRACE:: BacktestingResultHandler.Exit(): Saving logs...
+2026-06-01T19:44:13.6226398Z TRACE:: Debug: Algorithm Id:(1423146059) completed in 0.34 seconds at 0k data points per second. Processing total of 2 data points.
+2026-06-01T19:44:13.6254559Z TRACE:: Debug: Your log was successfully created and can be retrieved from: /Results/1423146059-log.txt
+2026-06-01T19:44:13.6257097Z TRACE:: BacktestingResultHandler.Run(): Ending Thread...
+2026-06-01T19:44:13.6255095Z TRACE:: StopSafely(): Waiting for 'Result Thread' thread to stop...
+2026-06-01T19:44:13.7216260Z ERROR:: BacktestingResultHandler.SendFinalResult(): Error running backtest analysis System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.ThrowHelper.ThrowNoElementsException()
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at QuantConnect.Lean.Engine.Results.Analysis.ResultsAnalyzer.ReadEquityCurve(Result result, QCAlgorithm algorithm) in Engine/Results/Analysis/ResultsAnalyzer.cs:line 175
+   at QuantConnect.Lean.Engine.Results.Analysis.ResultsAnalyzer.Run(Int32 timeLimitSeconds, Int32 maxFailedAnalyses) in Engine/Results/Analysis/ResultsAnalyzer.cs:line 65
+   at QuantConnect.Lean.Engine.Results.BacktestingResultHandler.SendFinalResult() in Engine/Results/BacktestingResultHandler.cs:line 420
+2026-06-01T19:44:13.7414502Z TRACE:: 
+STATISTICS:: Total Orders 0
+STATISTICS:: Average Win 0%
+STATISTICS:: Average Loss 0%
+STATISTICS:: Compounding Annual Return 0%
+STATISTICS:: Drawdown 0%
+STATISTICS:: Expectancy 0
+STATISTICS:: Start Equity 100000
+STATISTICS:: End Equity 100000
+STATISTICS:: Net Profit 0%
+STATISTICS:: Sharpe Ratio 0
+STATISTICS:: Sortino Ratio 0
+STATISTICS:: Probabilistic Sharpe Ratio 0%
+STATISTICS:: Loss Rate 0%
+STATISTICS:: Win Rate 0%
+STATISTICS:: Profit-Loss Ratio 0
+STATISTICS:: Alpha 0
+STATISTICS:: Beta 0
+STATISTICS:: Annual Standard Deviation 0
+STATISTICS:: Annual Variance 0
+STATISTICS:: Information Ratio 0
+STATISTICS:: Tracking Error 0
+STATISTICS:: Treynor Ratio 0
+STATISTICS:: Total Fees $0.00
+STATISTICS:: Estimated Strategy Capacity $0
+STATISTICS:: Lowest Capacity Asset 
+STATISTICS:: Portfolio Turnover 0%
+STATISTICS:: Drawdown Recovery 0
+STATISTICS:: OrderListHash d41d8cd98f00b204e9800998ecf8427e
+2026-06-01T19:44:13.7418447Z TRACE:: BacktestingResultHandler.SendAnalysisResult(): Processed final packet
+2026-06-01T19:44:13.7425042Z TRACE:: Engine.Run(): Disconnecting from brokerage...
+2026-06-01T19:44:13.7428719Z TRACE:: Engine.Run(): Disposing of setup handler...
+2026-06-01T19:44:13.7432264Z TRACE:: Engine.Main(): Analysis Completed and Results Posted.
+2026-06-01T19:44:13.7437190Z TRACE:: DataMonitor.Exit(): start...
+2026-06-01T19:44:13.7440819Z TRACE:: StopSafely(): Waiting for '' thread to stop...
+2026-06-01T19:44:13.7466978Z TRACE:: DataMonitor.GenerateReport():
+DATA USAGE:: Total data requests 2
+DATA USAGE:: Succeeded data requests 2
+DATA USAGE:: Failed data requests 0
+DATA USAGE:: Failed data requests percentage 0%
+DATA USAGE:: Total universe data requests 0
+DATA USAGE:: Succeeded universe data requests 0
+DATA USAGE:: Failed universe data requests 0
+DATA USAGE:: Failed universe data requests percentage 0%
+2026-06-01T19:44:13.7558094Z TRACE:: DataMonitor.Exit(): end
+2026-06-01T19:44:13.7595361Z TRACE:: Engine.Main(): Packet removed from queue: 1423146059
+2026-06-01T19:44:13.7599499Z TRACE:: LeanEngineSystemHandlers.Dispose(): start...
+2026-06-01T19:44:13.7611112Z TRACE:: LeanEngineSystemHandlers.Dispose(): Disposed of system handlers.
+2026-06-01T19:44:13.7615420Z TRACE:: LeanEngineAlgorithmHandlers.Dispose(): start...
+2026-06-01T19:44:13.7619319Z TRACE:: LocalObjectStore.Dispose(): start...
+2026-06-01T19:44:13.7623994Z TRACE:: LocalObjectStore.Dispose(): end
+2026-06-01T19:44:13.7628458Z TRACE:: LeanEngineAlgorithmHandlers.Dispose(): Disposed of algorithm handlers.
+2026-06-01T19:44:13.7632133Z TRACE:: StopSafely(): Waiting for 'CpuPerformance' thread to stop...
+2026-06-01T19:44:13.7637544Z TRACE:: PythonInitializer.Shutdown(): start
+2026-06-01T19:44:13.7640433Z TRACE:: PythonInitializer.Shutdown(): calling engine shutdown...
+2026-06-01T19:44:15.6619557Z TRACE:: PythonInitializer.Shutdown(): ended
+2026-06-01T19:44:15.6624720Z TRACE:: Program.Main(): Exiting Lean...

@@ -7,7 +7,7 @@ committed goldens.
 
 | Examples version | Bridge version                | LEAN CLI | .NET | Python    |
 | ---------------- | ----------------------------- | -------- | ---- | --------- |
-| v0.1.0           | flashalpha-quantconnect 0.1.1 | lean 1.x | 9.0  | 3.10–3.12 |
+| v0.1.0           | flashalpha-quantconnect 0.1.2 | lean 1.x | 9.0  | 3.10–3.12 |
 
 ---
 

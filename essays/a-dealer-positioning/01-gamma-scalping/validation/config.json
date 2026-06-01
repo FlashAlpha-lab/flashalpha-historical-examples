@@ -1,1 +1,6 @@
-{"environment": "backtesting", "algorithm-language": "Python", "algorithm-location": "main.py"}
+{
+    "environment": "backtesting",
+    "algorithm-language": "Python",
+    "algorithm-location": "main.py",
+    "local-id": 943244326
+}
