@@ -35,6 +35,7 @@ fa-new-essay = "flashalpha_examples_tools.new_essay:main"
 fa-check-bridge-compat = "flashalpha_examples_tools.check_bridge_compat:main"
 fa-data-smoke = "flashalpha_examples_tools.data_smoke:main"
 fa-smoke = "flashalpha_examples_tools.smoke_algo:main"
+fa-smoke-all = "flashalpha_examples_tools.smoke_all:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flashalpha_examples_tools"]
