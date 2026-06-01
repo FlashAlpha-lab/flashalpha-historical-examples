@@ -1,17 +1,14 @@
 {
   "tier": "smoke",
-  "final_equity": 100000.0,
-  "initial_equity": 100000.0,
-  "total_trades": 0,
-  "sharpe": 0.0,
-  "max_drawdown": 0.0,
-  "_smoke_status": "FAILED_PLAUSIBILITY",
-  "_smoke_reason": "0 trades — bridge custom-data subscription did not deliver daily bars to OnData. LEAN backtest completed cleanly otherwise (run id 1423146059, dir smoke-01-gamma-scalping/backtests/2026-06-01_22-44-05).",
-  "_smoke_diagnosis": "Possible causes: (1) LEAN Docker container lacks flashalpha-quantconnect — runtime install of validation/requirements.txt may not be wired; (2) bridge's add_flashalpha_gex subscribes but FlashAlphaSource.For never fires; (3) LEAN's custom-data downloader can't reach historical.flashalpha.com from inside Docker; (4) bar's GetSource/Reader contract mismatch with LEAN 1.0.225 expectations.",
-  "_diagnostic_next_steps": [
-    "Run lean backtest with --verbose to see Python import + subscription resolution",
-    "Inspect Docker container: does pip list inside the container show flashalpha-quantconnect?",
-    "Check FlashAlphaSource log emission — does it print/log on first GetSource call?",
-    "Try the simpler bridge smoke test pattern from the bridge's own smoke (e:/tmp/flashalpha-qc-smoke/) which uses FlashAlphaSource.For directly without LEAN's Algorithm wrapper"
-  ]
+  "_smoke_status": "BLOCKED_BY_BRIDGE_BUG_7",
+  "_smoke_reason": "LEAN daily-resolution subscription calls FlashAlphaSource.For with date=2024-06-03T00:00:00 (midnight UTC). FlashAlpha API returns NoDataError at exactly midnight because markets aren't open. Tier 1 data smoke (run separately at 15:30 ET timestamps) PASSED — confirming the data exists; only the LEAN-to-bridge date handoff is wrong.",
+  "_blocked_by_bridge_versions_caught_so_far": [
+    "v0.1.1: SubscriptionDataSource imported from wrong namespace (fixed in v0.1.2)",
+    "v0.1.2: SubscriptionTransportMedium imported from wrong namespace (fixed in v0.1.3)",
+    "v0.1.3: bridge has no FLASHALPHA_API_KEY pass-through from QC parameter (worked around in smoke template by config.api_key = self.GetParameter(...))",
+    "v0.1.3: source_for(date=midnight-utc) → FlashAlpha API 404 NoDataError — needs bridge to shift to market-close time OR catch+null"
+  ],
+  "_diagnosis_evidence": "ERROR:: Subscription worker task exception SPY,#0,SPY,Daily,GexBar,Trade,Adjusted,OpenInterest. Python.Runtime.PythonException: No historical data for SPY at 2024-06-03T00:00:00",
+  "_recommended_bridge_fix": "In FlashAlphaSource.For (Python source.py + C# FlashAlphaSource.cs), when date.time() is midnight-or-pre-RTH, shift to 16:00 ET (market close) of the previous trading day. Alternatively: catch NoDataError → return null SubscriptionDataSource so LEAN skips the bar without erroring out.",
+  "_diagnostic_data_saved_at": "docs/validation/diagnostic-v8/"
 }
