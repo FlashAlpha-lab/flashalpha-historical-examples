@@ -10,7 +10,7 @@ the essay flips to status: stable.
 
 from QuantConnect.Algorithm import QCAlgorithm
 from QuantConnect import Resolution, SecurityType, Market
-from flashalpha_quantconnect import GexBar, add_flashalpha_gex
+from flashalpha_quantconnect import GexBar, add_flashalpha_gex, config
 
 
 class Algorithm(QCAlgorithm):
@@ -19,6 +19,12 @@ class Algorithm(QCAlgorithm):
         self.SetStartDate(2024, 6, 3)
         self.SetEndDate(2024, 7, 5)
         self.SetCash(100_000)
+        # Bridge auth: in-LEAN, env var doesn't propagate into Docker.
+        # Pass the API key via `lean backtest --parameter flashalpha-api-key:VALUE`
+        # and we hoist it into the bridge's config here.
+        api_key = self.GetParameter("flashalpha-api-key")
+        if api_key:
+            config.api_key = api_key
         self.spy = self.AddEquity("SPY", Resolution.Daily).Symbol
         self.gex_symbol = add_flashalpha_gex(self, "SPY").Symbol
 

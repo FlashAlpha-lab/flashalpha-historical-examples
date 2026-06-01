@@ -140,11 +140,15 @@ the essay flips to status: stable.
 
 from QuantConnect.Algorithm import QCAlgorithm
 from QuantConnect import Resolution, SecurityType, Market
-from flashalpha_quantconnect import GexBar, add_flashalpha_gex
+from flashalpha_quantconnect import GexBar, add_flashalpha_gex, config
 
 
 class Algorithm(QCAlgorithm):
     def Initialize(self):
+        # Bridge auth: pass key via lean backtest --parameter flashalpha-api-key:VALUE
+        api_key = self.GetParameter("flashalpha-api-key")
+        if api_key:
+            config.api_key = api_key
         # 30-day window — fast, enough to fire gating logic multiple times
         self.SetStartDate(2024, 6, 3)
         self.SetEndDate(2024, 7, 5)
