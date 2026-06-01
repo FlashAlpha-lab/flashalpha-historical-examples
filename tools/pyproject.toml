@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flashalpha-examples-tools"
+version = "0.1.0"
+description = "Build utilities for flashalpha-historical-examples — catalog, golden capture, results rendering, JSON-LD."
+requires-python = ">=3.10"
+dependencies = [
+  "pyyaml>=6.0",
+  "matplotlib>=3.7",
+  "pillow>=10.0",
+  "pandas>=2.0",
+  "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7",
+  "ruff>=0.5",
+]
+
+[project.scripts]
+fa-build-catalog = "flashalpha_examples_tools.build_catalog:main"
+fa-verify-essay = "flashalpha_examples_tools.verify_essay:main"
+fa-capture-golden = "flashalpha_examples_tools.capture_golden:main"
+fa-render-results = "flashalpha_examples_tools.render_results:main"
+fa-check-orphans = "flashalpha_examples_tools.check_orphans:main"
+fa-verify-frontmatter = "flashalpha_examples_tools.verify_frontmatter:main"
+fa-build-bib = "flashalpha_examples_tools.build_bib:main"
+fa-build-site = "flashalpha_examples_tools.build_site:main"
+fa-gen-og-cards = "flashalpha_examples_tools.gen_og_cards:main"
+fa-new-essay = "flashalpha_examples_tools.new_essay:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flashalpha_examples_tools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
