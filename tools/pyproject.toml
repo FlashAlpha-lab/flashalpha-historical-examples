@@ -32,6 +32,7 @@ fa-build-bib = "flashalpha_examples_tools.build_bib:main"
 fa-build-site = "flashalpha_examples_tools.build_site:main"
 fa-gen-og-cards = "flashalpha_examples_tools.gen_og_cards:main"
 fa-new-essay = "flashalpha_examples_tools.new_essay:main"
+fa-check-bridge-compat = "flashalpha_examples_tools.check_bridge_compat:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flashalpha_examples_tools"]
