@@ -1,14 +1,40 @@
 {
   "tier": "smoke",
-  "_smoke_status": "BLOCKED_BY_BRIDGE_BUG_7",
-  "_smoke_reason": "LEAN daily-resolution subscription calls FlashAlphaSource.For with date=2024-06-03T00:00:00 (midnight UTC). FlashAlpha API returns NoDataError at exactly midnight because markets aren't open. Tier 1 data smoke (run separately at 15:30 ET timestamps) PASSED — confirming the data exists; only the LEAN-to-bridge date handoff is wrong.",
-  "_blocked_by_bridge_versions_caught_so_far": [
-    "v0.1.1: SubscriptionDataSource imported from wrong namespace (fixed in v0.1.2)",
-    "v0.1.2: SubscriptionTransportMedium imported from wrong namespace (fixed in v0.1.3)",
-    "v0.1.3: bridge has no FLASHALPHA_API_KEY pass-through from QC parameter (worked around in smoke template by config.api_key = self.GetParameter(...))",
-    "v0.1.3: source_for(date=midnight-utc) → FlashAlpha API 404 NoDataError — needs bridge to shift to market-close time OR catch+null"
+  "_smoke_status": "BRIDGE_OK_ALGORITHM_NEEDS_SLICE_ALIGNMENT",
+  "_milestone": "First successful end-to-end bridge<->LEAN integration. All 35 data requests succeeded; zero bridge errors.",
+  "final_equity": 100000.0,
+  "initial_equity": 100000.0,
+  "total_trades": 0,
+  "sharpe": 0.0,
+  "max_drawdown": 0.0,
+  "lean_data_usage": {
+    "total_requests": 35,
+    "succeeded": 35,
+    "failed": 0,
+    "data_points_processed": 2
+  },
+  "lean_run_summary": {
+    "engine_version": "v2.5.0.0",
+    "completed_seconds": 6.81,
+    "exit_status": "Algorithm completed",
+    "result_finalizer_warning": "BacktestingResultHandler.SendFinalResult InvalidOperationException 'Sequence contains no elements' — LEAN couldn't produce a summary.json because the algorithm placed no orders and produced no equity samples beyond the initial point. Not a bridge failure."
+  },
+  "_remaining_issue": "Algorithm: OnData gates on `if self.gex_symbol not in slice: return`. For LEAN Daily resolution, the equity slice and custom-data slice arrive separately (different timestamps), so the gate short-circuits on every slice that contains only SPY equity. The 35 GexBar data requests succeeded at the bridge layer but LEAN only delivered 2 'data point' slices to OnData — likely because most GexBars came back empty (sparse data) and LEAN skipped them per the new graceful-skip behavior.",
+  "_root_cause_of_zero_trades": [
+    "Possibility 1: Most calendar days within 2024-06-03 to 2024-07-05 are NON-trading days or fall on weekends/holidays — for Daily resolution, LEAN ticks midnight UTC every day, even non-trading days. Our bridge returns empty for those (correct sparse handling), so most slices have no GexBar.",
+    "Possibility 2: Even on trading days, midnight UTC has no GEX data (the API only has data at market hours). So our v0.1.4+ 'empty file' fallback was triggered, LEAN skipped the bar, and the algorithm never received a usable GexBar.",
+    "Possibility 3: Time-of-bar alignment — LEAN expects daily-res bars to be timestamped at midnight UTC; we set Time=date (the passed midnight) and EndTime=date+1day. Slice routing may not match SPY equity bars (which tick at session close)."
   ],
-  "_diagnosis_evidence": "ERROR:: Subscription worker task exception SPY,#0,SPY,Daily,GexBar,Trade,Adjusted,OpenInterest. Python.Runtime.PythonException: No historical data for SPY at 2024-06-03T00:00:00",
-  "_recommended_bridge_fix": "In FlashAlphaSource.For (Python source.py + C# FlashAlphaSource.cs), when date.time() is midnight-or-pre-RTH, shift to 16:00 ET (market close) of the previous trading day. Alternatively: catch NoDataError → return null SubscriptionDataSource so LEAN skips the bar without erroring out.",
-  "_diagnostic_data_saved_at": "docs/validation/diagnostic-v8/"
+  "_bridge_bugs_caught_by_v8_journey": [
+    "Bug 4 (v0.1.1 -> v0.1.2): SubscriptionDataSource imported from QuantConnect (should be QuantConnect.Data)",
+    "Bug 5 (v0.1.2 -> v0.1.3): SubscriptionTransportMedium imported from QuantConnect.Data (should be QuantConnect)",
+    "Bug 6 (smoke template workaround): bridge config.resolve_api_key() never reads QC parameters in practice — wired via self.GetParameter() -> config.api_key in Initialize",
+    "Bug 7 (v0.1.3 -> v0.1.4): NoDataError/NoCoverageError/InvalidAtError propagated unchanged, aborted the entire subscription. Now caught and treated as 'skip this bar'.",
+    "Bug 8 (v0.1.4 -> v0.1.5): SubscriptionTransportMedium.Rest with custom 'flashalpha://' scheme not supported by LEAN's RestSubscriptionStreamReader. Now writes JSON to a temp file under OS tempdir + uses LocalFile transport."
+  ],
+  "_next_steps": [
+    "Adjust smoke main.py to query GEX at end-of-day market-hours timestamp (15:30 ET) rather than midnight UTC — call FlashAlphaSource.For via a wrapper that shifts dates",
+    "OR have the algorithm warm up SPY history and use GetParameter or RequestData to align slice timing",
+    "Once one essay's smoke produces trades end-to-end, iterate on the other 19 essays"
+  ]
 }
