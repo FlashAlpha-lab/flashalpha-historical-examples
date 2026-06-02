@@ -1,1 +1,1 @@
-flashalpha-quantconnect==0.1.3
+flashalpha-quantconnect==0.1.4
