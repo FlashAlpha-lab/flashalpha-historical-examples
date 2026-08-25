@@ -48,7 +48,7 @@ feed is healthy.
 
 Historical replay responses carry a second object, `archive_as_of`, in the same shape: the
 vintage of the archive rows actually replayed for the timestamp requested. Their
-`data_as_of` is all `null`, because a replay node reads the archive and consumes no live
+every feed in `data_as_of` is `null`, because a replay node reads the archive and consumes no live
 feed.
 
 `archive_as_of` is what makes an archive gap detectable. Request a moment with no row and
