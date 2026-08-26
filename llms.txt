@@ -1,0 +1,67 @@
+# flashalpha-historical-examples
+
+> 21 backtest essays for options strategies on QuantConnect LEAN.
+> Side-by-side C# and Python. Powered by flashalpha-quantconnect.
+
+## Data provenance
+
+These are backtests, so the load-bearing object is `archive_as_of`, not `data_as_of`.
+
+Every replay response carries both. `data_as_of` reports `null` for every feed - a replay
+node reads the archive and consumes no live feed - with `node` still populated; that
+all-null shape is how you tell a replayed response from a live one. `archive_as_of` is the
+vintage of the archive rows actually replayed for the timestamp requested, reported per
+data class: equity and index spot, their option chains, futures and futures options, the
+classified trade tape, settled open interest, and the macro series.
+
+`archive_as_of` is what makes an archive gap detectable. Request a moment with no stored
+row and the query returns the most recent earlier row; nothing else in the response
+distinguishes the two, so a backtest can carry stale inputs without ever raising an error.
+Point-in-time work should compare each relevant feed against the instant requested and drop
+or flag observations whose inputs precede it by more than the study tolerates. `oi_feed`
+trailing by a session is correct rather than a gap: settled open interest is published once
+per session, so the newest figure that existed at any intraday moment is the prior close.
+`endpoint_version` identifies the deployment. Full reference:
+https://flashalpha.com/docs/lab-api-overview#response-envelope
+
+## Essays — Dealer positioning
+- [Gamma scalping in QuantConnect](essays/a-dealer-positioning/01-gamma-scalping/README.md): Backtest a long-SPY drift trade gated by FlashAlpha's dealer-gamma regime label — long when dealers are net long gamma (low-vol drift), flat when they're net short gamma (vol expansion).
+- [GEX regime following](essays/a-dealer-positioning/02-gex-regime-following/README.md): Hold SPY when dealer NetGex trends up week-over-week and rotate to cash on negative-gamma rolls — a momentum spin on the regime gate from the gamma-scalping flagship.
+- [Gamma flip strike trading](essays/a-dealer-positioning/03-gamma-flip-strike/README.md): Pin the gamma-flip strike (where NetGex crosses zero) as a dynamic support/resistance level; trade pullbacks toward it inside positive-gamma regimes.
+- [Negative-gamma vol expansion play](essays/a-dealer-positioning/04-negative-gamma-vol-expansion/README.md): Buy a long-vol structure (straddle proxy via VXX) on the first day NetGex flips negative — explicitly trade the vol-expansion regime that the gamma-scalping flagship sits out.
+- [Pin-risk avoidance (0DTE)](essays/a-dealer-positioning/05-pin-risk-avoidance-0dte/README.md): Skip SPY 0DTE option entries when ExposureSummary shows the underlier within 0.5σ of a high-OI strike — measure how often 'pin risk' actually pins.
+
+## Essays — Vanna / charm / VEX
+- [Charm-flow afternoon timing](essays/b-vanna-charm-vex/06-charm-flow-afternoon/README.md): Time intraday SPY entries to the afternoon charm-flow window (last 90 minutes) using the dealer-charm column of ChexBar — when dealers must rebalance into close, the drift edge concentrates.
+- [Vanna-shock reversal](essays/b-vanna-charm-vex/07-vanna-shock-reversal/README.md): Fade SPY single-day moves > 1.5σ when VexBar's net vanna spiked the day prior — vanna shocks tend to mean-revert as dealers re-hedge volatility-of-volatility exposure.
+- [Combined-greek regime grid](essays/b-vanna-charm-vex/08-combined-greek-regime-grid/README.md): Build a 4-quadrant regime grid from the sign of NetGex × the sign of NetVex (gamma + vanna) and run a directional SPY trade in only the long-gamma-positive-vanna cell.
+
+## Essays — VRP / volatility
+- [VRP harvest short-vol](essays/c-vrp-volatility/09-vrp-harvest-short-vol/README.md): Sell a delta-hedged 30-day SPY straddle when VrpBar's 60-day variance-risk-premium z-score is positive — classical short-vol carry, gated on the empirical VRP rather than on flat IV-rank.
+- [IV-rank entry filter](essays/c-vrp-volatility/10-iv-rank-entry-filter/README.md): Use VolatilityBar's IV-rank as a second gate on top of any directional signal — only enter SPY longs when IV-rank is in its bottom quintile, so you're not paying for vol that's already priced.
+- [Realized vs implied divergence](essays/c-vrp-volatility/11-realized-vs-implied-divergence/README.md): Compare AdvVolatilityBar's realized vol (Parkinson estimator) against its IV surface; when realized exceeds implied by > 4 vol points for 5 sessions, fade SPY's directional bias.
+- [Vol term-structure spread](essays/c-vrp-volatility/12-vol-term-structure-spread/README.md): Long the 60-day - 30-day implied-vol spread via VolatilityBar — capture the term-structure mean-reversion that emerges after vol-curve inversions.
+
+## Essays — 0DTE
+- [0DTE Friday gamma squeeze](essays/d-zero-dte/13-friday-gamma-squeeze/README.md): On 0DTE Friday, take a long-SPY position if NetGex > $2B at the open — Friday-only exposure to the dealer-pinning lift that compounds across the morning.
+- [0DTE pin gravitation](essays/d-zero-dte/14-pin-gravitation/README.md): Trade SPY mean-reversion toward MaxPainBar's max-pain strike during the last hour of 0DTE expiration days; measure how often max-pain actually pins.
+- [0DTE intraday gamma flip](essays/d-zero-dte/15-intraday-gamma-flip/README.md): Use hourly GEX snapshots to detect NetGex sign changes inside the trading session, and rebalance SPY exposure on the flip — intraday version of the gamma-scalping flagship.
+- [0DTE expected-move straddle](essays/d-zero-dte/16-expected-move-straddle/README.md): Buy a 0DTE straddle when ZeroDteBar's expected-move band is < 0.6× realized vol — explicit vol mispricing trade on options expiring same-day.
+
+## Essays — Cross-signal / multi-asset
+- [Dispersion: SPY vs RTY](essays/e-cross-signal/17-dispersion-spy-vs-rty/README.md): Long IWM, short SPY (vol-weighted) when SurfaceBar's IV-skew differential between SPY and IWM exceeds 1.5σ — index dispersion trade gated on the relative skew, not on simple correlation.
+- [Calendar carry on positive-gamma days](essays/e-cross-signal/18-calendar-carry-positive-gamma/README.md): Sell a short-dated, buy a long-dated SPY ATM call (calendar spread) on days when NetGex is positive and the term structure is in contango — collect both theta and carry only in the favorable regime.
+- [Max-pain reversion](essays/e-cross-signal/19-max-pain-reversion/README.md): Trade SPY toward MaxPainBar's strike whenever spot is > 2% away from it, with a stop at the gamma-flip — explicit pin-reversion trade outside expiration weeks.
+- [Earnings vol contraction](essays/e-cross-signal/20-earnings-vol-contraction/README.md): Sell single-name implied vol the morning after earnings when AdvVolatilityBar shows IV > 30% above its trailing 30-day average — the classic post-earnings vol-crush trade, gated on the size of the pre-print premium.
+
+## Bridge package
+- [flashalpha-quantconnect on NuGet](https://www.nuget.org/packages/FlashAlpha.QuantConnect/)
+- [flashalpha-quantconnect on PyPI](https://pypi.org/project/flashalpha-quantconnect/)
+
+## Underlying API
+- [historical.flashalpha.com](https://historical.flashalpha.com)
+
+## Optional
+- [Glossary](docs/glossary.md)
+- [LEAN CLI cheatsheet](docs/lean-cli-cheatsheet.md)
+- [Bibliography](bibliography.md)
