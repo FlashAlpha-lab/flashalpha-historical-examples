@@ -54,6 +54,10 @@ https://flashalpha.com/docs/lab-api-overview#response-envelope
 - [Max-pain reversion](essays/e-cross-signal/19-max-pain-reversion/README.md): Trade SPY toward MaxPainBar's strike whenever spot is > 2% away from it, with a stop at the gamma-flip — explicit pin-reversion trade outside expiration weeks.
 - [Earnings vol contraction](essays/e-cross-signal/20-earnings-vol-contraction/README.md): Sell single-name implied vol the morning after earnings when AdvVolatilityBar shows IV > 30% above its trailing 30-day average — the classic post-earnings vol-crush trade, gated on the size of the pre-print premium.
 
+## sell-window replay
+- [Historical sell-window API](https://flashalpha.com/docs/historical-sell-window): replay "should you sell options today?" for SPY, QQQ and IWM on any session since 2018, strikes included.
+- [The backtest](https://flashalpha.com/articles/sell-window-backtest-every-trade-2018-2026): every trade, 2018 to 2026.
+
 ## Bridge package
 - [flashalpha-quantconnect on NuGet](https://www.nuget.org/packages/FlashAlpha.QuantConnect/)
 - [flashalpha-quantconnect on PyPI](https://pypi.org/project/flashalpha-quantconnect/)

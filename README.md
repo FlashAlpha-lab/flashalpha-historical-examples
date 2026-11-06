@@ -58,6 +58,10 @@ precede the requested instant by more than the study tolerates.
 
 Full reference: <https://flashalpha.com/docs/lab-api-overview#response-envelope>
 
+## sell-window replay
+
+[sell-window](https://flashalpha.com/docs/lab-api-strategies-sell-window?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-examples&utm_content=sell-window) answers "should you sell options today?" every session for SPY, QQQ and IWM. More than 5 million backtests led to it. Replay it for any session since 2018 with `GET https://historical.flashalpha.com/v1/strategies/sell-window/{symbol}?at=<session>T09:35:00`, which returns the backtest's entry strikes (Alpha or higher). SDK methods are in [flashalpha-historical-python](https://github.com/FlashAlpha-lab/flashalpha-historical-python) and the other historical SDKs. See [every backtested trade](https://flashalpha.com/articles/sell-window-backtest-every-trade-2018-2026?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-examples&utm_content=sell-window).
+
 ## Get access
 
 The Historical API requires the **Alpha tier ($1,499/mo)**: the only public source
